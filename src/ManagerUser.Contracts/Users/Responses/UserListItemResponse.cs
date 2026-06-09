@@ -1,6 +1,6 @@
 namespace ManagerUser.Contracts.Users.Responses;
 
-public sealed class UserDetailResponse
+public sealed class UserListItemResponse
 {
     public Guid Id { get; set; }
 

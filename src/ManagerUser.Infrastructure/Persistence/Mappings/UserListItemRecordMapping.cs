@@ -1,13 +1,13 @@
-using ManagerUser.Application.Users.Queries.GetUserById;
+using ManagerUser.Application.Users.Queries.GetUsers;
 using ManagerUser.Infrastructure.Persistence.Records;
 
 namespace ManagerUser.Infrastructure.Persistence.Mappings;
 
-internal static class UserDetailRecordMapping
+internal static class UserListItemRecordMapping
 {
-    public static GetUserByIdQueryResult ToQueryResult(this UserDetailRecord record)
+    public static GetUsersQueryItem ToQueryItem(this UserListItemRecord record)
     {
-        return new GetUserByIdQueryResult(
+        return new GetUsersQueryItem(
             Id: record.Id,
             Username: record.Username,
             Email: record.Email,

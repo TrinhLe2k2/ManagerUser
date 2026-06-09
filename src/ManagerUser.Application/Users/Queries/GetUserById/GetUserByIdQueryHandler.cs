@@ -1,7 +1,7 @@
 using FluentValidation;
 using ManagerUser.Application.Common.Abstractions.Persistence;
+using ManagerUser.Application.Common.Constants;
 using ManagerUser.Application.Common.Exceptions;
-using ManagerUser.Application.Users.Constants;
 
 namespace ManagerUser.Application.Users.Queries.GetUserById;
 public sealed class GetUserByIdQueryHandler
@@ -22,7 +22,7 @@ public sealed class GetUserByIdQueryHandler
         var result = await _userQueryRepository.GetByIdAsync(query, cancellationToken);
 
         if (result is null)
-            throw new AppException("USER_NOT_FOUND", "Không tìm thấy user.", System.Net.HttpStatusCode.NotFound);
+            throw new AppException(ApplicationCodes.User.NotFound, ApplicationMessages.User.NotFound, System.Net.HttpStatusCode.NotFound);
 
         return result;
     }
