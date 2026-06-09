@@ -29,8 +29,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{9889D65A-B
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "procedures", "procedures", "{62708B5E-C04D-4F23-B7A9-C6AC8C8318C8}"
+	ProjectSection(SolutionItems) = preProject
+		database\procedures\User_ChangeStatus.sql = database\procedures\User_ChangeStatus.sql
+		database\procedures\User_Create.sql = database\procedures\User_Create.sql
+		database\procedures\User_Delete.sql = database\procedures\User_Delete.sql
+		database\procedures\User_ExistsByEmail.sql = database\procedures\User_ExistsByEmail.sql
+		database\procedures\User_ExistsById.sql = database\procedures\User_ExistsById.sql
+		database\procedures\User_ExistsByUsername.sql = database\procedures\User_ExistsByUsername.sql
+		database\procedures\User_GetById.sql = database\procedures\User_GetById.sql
+		database\procedures\User_GetList.sql = database\procedures\User_GetList.sql
+		database\procedures\User_Update.sql = database\procedures\User_Update.sql
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tables", "tables", "{D802C15B-ED4C-4761-BA7B-3027293FA38C}"
+	ProjectSection(SolutionItems) = preProject
+		database\tables\Users.sql = database\tables\Users.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

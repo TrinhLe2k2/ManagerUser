@@ -64,72 +64,44 @@ public sealed class UserQueryRepository : IUserQueryRepository
     }
 
     public async Task<bool> ExistsByIdAsync(
-        Guid id,
-        CancellationToken cancellationToken = default)
+    Guid id,
+    CancellationToken cancellationToken = default)
     {
         var command = new CommandDefinition(
-            """
-            SELECT CAST(
-                CASE WHEN EXISTS (
-                    SELECT 1
-                    FROM dbo.Users
-                    WHERE Id = @Id
-                      AND IsDeleted = 0
-                )
-                THEN 1 ELSE 0 END AS bit
-            );
-            """,
+            "dbo.User_ExistsById",
             new { Id = id },
+            commandType: CommandType.StoredProcedure,
             cancellationToken: cancellationToken);
 
         return await _dbSession.Connection.QuerySingleAsync<bool>(command);
     }
 
     public async Task<bool> ExistsByUsernameAsync(
-        string username,
-        CancellationToken cancellationToken = default)
+    string username,
+    CancellationToken cancellationToken = default)
     {
         var command = new CommandDefinition(
-            """
-            SELECT CAST(
-                CASE WHEN EXISTS (
-                    SELECT 1
-                    FROM dbo.Users
-                    WHERE Username = @Username
-                      AND IsDeleted = 0
-                )
-                THEN 1 ELSE 0 END AS bit
-            );
-            """,
+            "dbo.User_ExistsByUsername",
             new { Username = username },
+            commandType: CommandType.StoredProcedure,
             cancellationToken: cancellationToken);
 
         return await _dbSession.Connection.QuerySingleAsync<bool>(command);
     }
 
     public async Task<bool> ExistsByEmailAsync(
-        string email,
-        Guid? excludeUserId = null,
-        CancellationToken cancellationToken = default)
+    string email,
+    Guid? excludeUserId = null,
+    CancellationToken cancellationToken = default)
     {
         var command = new CommandDefinition(
-            """
-            SELECT CAST(
-                CASE WHEN EXISTS (
-                    SELECT 1
-                    FROM dbo.Users
-                    WHERE Email = @Email
-                      AND IsDeleted = 0
-                      AND (@ExcludeUserId IS NULL OR Id <> @ExcludeUserId)
-                )
-                THEN 1 ELSE 0 END AS bit
-            );
-            """,
+            "dbo.User_ExistsByEmail",
             new
             {
                 Email = email,
                 ExcludeUserId = excludeUserId
             },
+            commandType: CommandType.StoredProcedure,
             cancellationToken: cancellationToken);
 
         return await _dbSession.Connection.QuerySingleAsync<bool>(command);

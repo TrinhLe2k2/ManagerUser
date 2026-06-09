@@ -1,6 +1,7 @@
 using FluentValidation;
 using ManagerUser.Application.Common.Exceptions;
 using ManagerUser.Contracts.Common;
+using Microsoft.AspNetCore.Http.HttpResults;
 using System.Net;
 using System.Text.Json;
 
@@ -36,7 +37,7 @@ public sealed class ExceptionHandlingMiddleware
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Unhandled API error.");
+            _logger.LogError(ex, "Unhandled API error, TraceIdentifier: " + context.TraceIdentifier);
             await WriteUnhandledErrorAsync(context);
         }
     }

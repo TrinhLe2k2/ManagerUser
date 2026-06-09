@@ -32,7 +32,7 @@ public sealed class UsersController : ControllerBase
             HttpContext.TraceIdentifier));
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("{id:guid}", Name = "GetUserById")]
     [ProducesResponseType(typeof(ApiResponse<UserDetailResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetByIdAsync(
         Guid id,
@@ -57,8 +57,18 @@ public sealed class UsersController : ControllerBase
         var result = await handler.HandleAsync(request.ToCommand(), cancellationToken);
         var response = result.ToResponse();
 
-        return CreatedAtAction(
-            nameof(GetByIdAsync),
+        Console.WriteLine("name of = " + nameof(GetByIdAsync));
+
+        //return CreatedAtAction(
+        //    nameof(GetByIdAsync),
+        //    new { id = response.Id },
+        //    ApiResponse<UserCreatedResponse>.Ok(
+        //        response,
+        //        ApiMessages.User.CreateSuccess,
+        //        HttpContext.TraceIdentifier));
+
+        return CreatedAtRoute(
+            "GetUserById",
             new { id = response.Id },
             ApiResponse<UserCreatedResponse>.Ok(
                 response,
