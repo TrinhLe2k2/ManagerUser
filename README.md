@@ -1,7 +1,7 @@
 # Triển Khai Dự Án User Management
 
 Công nghệ chính:
-- .NET Web API
+- .NET Web API, .NET 8.0
 - Dapper ORM
 - SQL Server và Stored Procedure
 - BackgroundService / Worker Service
@@ -114,4 +114,17 @@ dotnet add tests/ManagerUser.Tests/ManagerUser.Tests.csproj reference src/Manage
 dotnet add tests/ManagerUser.Tests/ManagerUser.Tests.csproj reference src/ManagerUser.Worker/ManagerUser.Worker.csproj
 dotnet add tests/ManagerUser.Tests package FluentAssertions --version 6.12.0
 dotnet add tests/ManagerUser.Tests package Moq --version 4.20.70
+```
+
+Create file:
+```powershell
+New-Item -ItemType File -Force database\procedures\Users.sql
+
+New-Item -ItemType File -Force database\procedures\User_GetById.sql
+New-Item -ItemType File -Force database\procedures\User_GetList.sql
+New-Item -ItemType File -Force database\procedures\User_Create.sql
+New-Item -ItemType File -Force database\procedures\User_Update.sql
+New-Item -ItemType File -Force database\procedures\User_Delete.sql
+New-Item -ItemType File -Force database\procedures\User_ChangeStatus.sql
+
 ```

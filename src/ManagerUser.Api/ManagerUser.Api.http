@@ -1,6 +1,47 @@
+# @ManagerUser.Api_HostAddress = http://localhost:5223
+
+# GET {{ManagerUser.Api_HostAddress}}/weatherforecast/
+# Accept: application/json
+
+# ###
+
 @ManagerUser.Api_HostAddress = http://localhost:5223
+@UserId = 00000000-0000-0000-0000-000000000000
 
-GET {{ManagerUser.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+### Get users
+GET {{ManagerUser.Api_HostAddress}}/api/users?keyword=&pageIndex=1&pageSize=20
 
-###
+### Get user by id
+GET {{ManagerUser.Api_HostAddress}}/api/users/{{UserId}}
+
+### Create user
+POST {{ManagerUser.Api_HostAddress}}/api/users
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "email": "admin@test.com",
+  "fullName": "Administrator",
+  "password": "Password123",
+  "status": 1
+}
+
+### Update user
+PUT {{ManagerUser.Api_HostAddress}}/api/users/{{UserId}}
+Content-Type: application/json
+
+{
+  "email": "admin.updated@test.com",
+  "fullName": "Administrator Updated"
+}
+
+### Change user status
+PATCH {{ManagerUser.Api_HostAddress}}/api/users/{{UserId}}/status
+Content-Type: application/json
+
+{
+  "status": 2
+}
+
+### Delete user
+DELETE {{ManagerUser.Api_HostAddress}}/api/users/{{UserId}}
