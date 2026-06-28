@@ -1,3 +1,6 @@
+# Phím tắt
+- Remove and Sort Usings: Ctrl + R + G
+
 # Triển Khai Dự Án User Management
 
 Công nghệ chính:
