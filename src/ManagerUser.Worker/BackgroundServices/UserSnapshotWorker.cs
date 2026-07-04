@@ -30,17 +30,7 @@ public sealed class UserSnapshotWorker : BackgroundService
         {
             while (await timer.WaitForNextTickAsync(stoppingToken))
             {
-                // await A; await B; await C; = chạy tuần tự
                 await RunBusinessAsync(stoppingToken);
-                //await RunBusinessAsync2(stoppingToken);
-                //await RunBusinessAsync3(stoppingToken);
-
-                // Task.WhenAll(A, B, C) = chạy đồng thời và chờ tất cả xong
-                //var userSyncTask = RunUserSyncJobAsync(stoppingToken);
-                //var snapshotTask = RunUserSnapshotJobAsync(stoppingToken);
-                //var reportTask = RunReportJobAsync(stoppingToken);
-
-                //await Task.WhenAll(userSyncTask, snapshotTask, reportTask);
             }
         }
         catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)

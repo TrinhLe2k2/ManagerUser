@@ -37,4 +37,31 @@ public class UserJobBusinessService
 
         return _getUsersQueryHandler.HandleAsync(query, cancellationToken);
     }
+
+    public Task RunAllUsersSnapshotJobAsync(CancellationToken cancellationToken = default)
+    {
+        return RunUsersJobAsync("Sample B - AllUsersSnapshotJob", status: null, cancellationToken);
+    }
+
+    public Task RunStatusOneUsersJobAsync(CancellationToken cancellationToken = default)
+    {
+        return RunUsersJobAsync("Sample B - StatusOneUsersJob", status: 1, cancellationToken);
+    }
+
+    public Task RunStatusTwoUsersJobAsync(CancellationToken cancellationToken = default)
+    {
+        return RunUsersJobAsync("Sample B - StatusTwoUsersJob", status: 2, cancellationToken);
+    }
+
+    private async Task RunUsersJobAsync(string jobName, byte? status, CancellationToken cancellationToken)
+    {
+        var result = await GetUsersAsync(status, cancellationToken);
+
+        _logger.LogInformation(
+            "{JobName}: loaded {LoadedCount}/{TotalCount} users. Status={Status}.",
+            jobName,
+            result.Items.Count,
+            result.TotalCount,
+            status?.ToString() ?? "All");
+    }
 }

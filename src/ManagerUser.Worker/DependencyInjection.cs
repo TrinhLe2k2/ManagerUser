@@ -18,13 +18,12 @@ public static class DependencyInjection
         services.AddWorkerOptions(configuration);
         services.AddWorkerBusinessServices();
 
-        services.AddHostedService<UserSnapshotWorker>();
+        //services.AddHostedService<UserSnapshotWorker>();
+        services.AddHostedService<MultipleUserJobsWorker>();
 
         return services;
     }
-    private static IServiceCollection AddWorkerOptions(
-        this IServiceCollection services,
-        IConfiguration configuration)
+    private static IServiceCollection AddWorkerOptions(this IServiceCollection services, IConfiguration configuration)
     {
         services
             .AddOptions<WorkerBusinessOptions>()
