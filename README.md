@@ -141,3 +141,317 @@ SampleD_BackgroundTaskQueueWorker: queue job nội bộ.
 SampleE_OutboxDispatcherWorker: poll DB và xử lý message pending.
 SampleF_HangfireComparison: so sánh khi nào không nên dùng BackgroundService thuần và Hangfire.
 SampleG_QuartzComparison: so sánh khi nào không nên dùng BackgroundService thuần và Quartz.
+
+# Quy tắc tạo nhánh và commit Git
+
+## 1. Quy tắc nhánh chính
+
+### `main`
+
+Nhánh production. Code trên nhánh này phải là code đã release hoặc sẵn sàng release.
+
+Không push trực tiếp vào `main`.
+
+### `develop`
+
+Nhánh tích hợp cho DEV.
+
+Không push trực tiếp, chỉ được merge vào develop thông qua Pull Request..
+
+### `release/*`
+
+Dùng khi chuẩn bị release.
+
+Ví dụ:
+
+```bash
+release/2026-07-05
+release/v1.2.0
+```
+
+## 2. Quy tắc đặt tên nhánh
+
+Format chung:
+
+```bash
+<type>/<ticket-id>-<mo-ta-ngan>
+```
+
+Ví dụ:
+
+```bash
+feature/us-28341-huy-ban-nhap-ke-hoach
+bugfix/bug-1045-loi-bao-cao-2026
+hotfix/bug-1099-loi-khong-dang-nhap
+refactor/task-3001-toi-uu-store-report
+docs/task-3010-cap-nhat-release-note
+```
+
+### Type được phép dùng
+
+| Type       | Ý nghĩa                                     |
+| ---------- | ------------------------------------------- |
+| `feature`  | Làm chức năng mới                           |
+| `bugfix`   | Sửa lỗi trong quá trình DEV/UAT             |
+| `hotfix`   | Sửa lỗi production gấp                      |
+| `release`  | Chuẩn bị bản release                        |
+| `refactor` | Cải tổ code, không đổi nghiệp vụ            |
+| `docs`     | Sửa tài liệu                                |
+| `test`     | Thêm/sửa test                               |
+| `chore`    | Việc phụ trợ: config, cleanup, build script |
+| `spike`    | Nhánh nghiên cứu/thử nghiệm                 |
+
+### Quy tắc bắt buộc
+
+Tên nhánh phải viết thường, không dấu tiếng Việt, không khoảng trắng.
+
+Dùng dấu `-` để ngăn cách từ.
+
+Mỗi nhánh chỉ phục vụ một task, một bug hoặc một user story.
+
+Không đặt tên chung chung như:
+
+```bash
+fixbug
+update-code
+test
+new-branch
+anh-fix
+```
+
+Nên đặt rõ nội dung như:
+
+```bash
+bugfix/bug-1045-fix-convert-date-report
+feature/us-28341-add-cancel-draft-button
+```
+
+---
+
+## 3. Quy tắc commit
+
+Format commit:
+
+```bash
+<type>(<scope>): <noi-dung-ngan-gon>
+```
+
+Ví dụ:
+
+```bash
+feat(plan): add cancel draft button
+fix(report): correct same-period data for 2026
+fix(sql): handle null department id in report filter
+refactor(api): split department report mapping logic
+docs(release): add note for document type filter
+chore(config): update connection setting for uat
+```
+
+Format đầy đủ khi cần mô tả thêm:
+
+```bash
+<type>(<scope>): <noi-dung-ngan-gon>
+
+<mo-ta-chi-tiet-neu-can>
+
+Refs: <ticket-id>
+```
+
+Ví dụ:
+
+```bash
+fix(report): correct same-period data for 2026
+
+Update date filter logic to include historical data synchronized at end of day.
+
+Refs: BUG-1045
+```
+
+---
+
+## 4. Type commit được phép dùng
+
+| Type       | Khi nào dùng                         |
+| ---------- | ------------------------------------ |
+| `feat`     | Thêm chức năng mới                   |
+| `fix`      | Sửa lỗi                              |
+| `refactor` | Sửa cấu trúc code, không đổi hành vi |
+| `perf`     | Tối ưu hiệu năng                     |
+| `docs`     | Sửa tài liệu                         |
+| `style`    | Format code, indent, không đổi logic |
+| `test`     | Thêm/sửa test                        |
+| `build`    | Sửa build, dependency                |
+| `ci`       | Sửa pipeline CI/CD                   |
+| `chore`    | Việc phụ trợ, cleanup                |
+| `revert`   | Revert commit trước đó               |
+
+---
+
+## 5. Scope commit nên dùng
+
+Scope là khu vực bị ảnh hưởng.
+
+Ví dụ scope phù hợp:
+
+```bash
+api
+ui
+sql
+store
+report
+workflow
+auth
+notify
+config
+```
+
+Ví dụ commit tốt:
+
+```bash
+fix(store): prevent duplicate temporary document
+feat(workflow): add cancel action for saved draft
+fix(sharepoint): replace style library css path
+fix(api): decode language parameter correctly
+refactor(sql): simplify department report query
+```
+
+---
+
+## 6. Quy tắc viết nội dung commit
+
+Nội dung commit phải mô tả việc đã làm, không mô tả chung chung.
+
+Không nên:
+
+```bash
+fix bug
+update code
+commit code
+sua loi
+done
+test
+```
+
+Nên:
+
+```bash
+fix(report): include child level data in level 2 summary
+fix(sql): prevent duplicate SubmitSource column creation
+feat(api): add language filter for department report
+docs(note): update release note for document type filter
+```
+
+Một commit chỉ nên chứa một nhóm thay đổi logic.
+
+Không gom nhiều việc không liên quan vào một commit.
+
+Ví dụ không nên:
+
+```bash
+fix(api): update report, change css, add column, fix login
+```
+
+Nên tách ra:
+
+```bash
+fix(api): correct department report language
+style(ui): update report filter spacing
+fix(sql): add check before creating SubmitSource column
+```
+
+---
+
+## 7. Quy tắc trước khi commit
+
+Trước khi commit phải kiểm tra:
+
+```bash
+git status
+git diff
+```
+
+Không commit file không liên quan.
+
+Không commit file chứa password, token, connection string thật.
+
+Không commit file backup, file build, file tạm nếu không cần thiết.
+
+Ví dụ cần tránh:
+
+```bash
+*.bak
+*.tmp
+bin/
+obj/
+node_modules/
+.env
+appsettings.Production.json
+```
+
+Nếu có thay đổi database, commit phải nói rõ thay đổi gì.
+
+Ví dụ:
+
+```bash
+fix(sql): add existence check before adding SubmitSource column
+```
+
+---
+
+## 8. Quy tắc push nhánh
+
+Push nhánh theo format:
+
+```bash
+git push origin <branch-name>
+```
+
+Ví dụ:
+
+```bash
+git push origin feature/us-28341-huy-ban-nhap-ke-hoach
+```
+
+Không push trực tiếp lên:
+
+```bash
+main
+develop
+release/*
+```
+
+trừ khi được phân quyền rõ ràng.
+
+---
+
+## 9. Quy tắc Pull Request
+
+Tiêu đề PR nên theo format commit:
+
+```bash
+<type>(<scope>): <noi-dung-ngan-gon>
+```
+
+Ví dụ:
+
+```bash
+feat(workflow): add cancel draft action
+fix(report): correct same-period report for 2026
+fix(sql): prevent duplicate SubmitSource column
+```
+
+PR phải có mô tả:
+
+```markdown
+## Nội dung thay đổi
+- ...
+
+## Lý do thay đổi
+- ...
+
+## Cách test
+- ...
+
+## Ghi chú database/config
+- ...
+```
