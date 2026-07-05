@@ -64,4 +64,26 @@ public class UserJobBusinessService
             result.TotalCount,
             status?.ToString() ?? "All");
     }
+
+    public async Task RunSlowUsersSnapshotJobAsync(int durationSeconds, CancellationToken cancellationToken = default)
+    {
+        var duration = TimeSpan.FromSeconds(durationSeconds);
+
+        _logger.LogInformation(
+            "Sample C - SlowUsersSnapshotJob: simulating long work for {Duration}.",
+            duration);
+
+        // Đây là phần giả lập job lâu hơn interval.
+        // Ví dụ Development config đang để:
+        // - BackgroundIntervalSeconds = 5
+        // - SampleCJobDurationSeconds = 12
+        //
+        // Nghĩa là timer tick mỗi 5 giây, nhưng job mất 12 giây.
+        // Nhờ vậy khi chạy SampleC bạn sẽ thấy log tick bị skip.
+        await Task.Delay(duration, cancellationToken);
+
+        // Sau khi giả lập việc lâu, job vẫn gọi logic thật của project:
+        // lấy danh sách user qua GetUsersQueryHandler và repository.
+        await RunUsersJobAsync("Sample C - SlowUsersSnapshotJob", status: null, cancellationToken);
+    }
 }

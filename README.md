@@ -131,3 +131,13 @@ New-Item -ItemType File -Force database\procedures\User_Delete.sql
 New-Item -ItemType File -Force database\procedures\User_ChangeStatus.sql
 
 ```
+
+# Background Service
+
+SampleA_UserSnapshotWorker: giữ mẫu hiện tại, chỉnh lại config/log cho rõ.
+SampleB_MultipleJobsWorker: chạy nhiều job tuần tự/song song.
+SampleC_NonOverlappingWorker: chống job chạy chồng.
+SampleD_BackgroundTaskQueueWorker: queue job nội bộ.
+SampleE_OutboxDispatcherWorker: poll DB và xử lý message pending.
+SampleF_HangfireComparison: so sánh khi nào không nên dùng BackgroundService thuần và Hangfire.
+SampleG_QuartzComparison: so sánh khi nào không nên dùng BackgroundService thuần và Quartz.
