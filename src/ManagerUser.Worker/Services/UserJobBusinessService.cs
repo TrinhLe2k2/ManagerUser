@@ -86,4 +86,32 @@ public class UserJobBusinessService
         // lấy danh sách user qua GetUsersQueryHandler và repository.
         await RunUsersJobAsync("Sample C - SlowUsersSnapshotJob", status: null, cancellationToken);
     }
+
+    // Các method Sample D vẫn dùng business logic thật của project.
+    // Điểm khác là chúng được gọi bởi consumer sau khi job đã đi qua queue.
+    public Task RunQueuedAllUsersSnapshotJobAsync(CancellationToken cancellationToken = default)
+    {
+        return RunUsersJobAsync("Sample D - QueuedAllUsersSnapshotJob", status: null, cancellationToken);
+    }
+
+    public Task RunQueuedStatusOneUsersJobAsync(CancellationToken cancellationToken = default)
+    {
+        return RunUsersJobAsync("Sample D - QueuedStatusOneUsersJob", status: 1, cancellationToken);
+    }
+
+    public async Task RunQueuedSlowUsersSnapshotJobAsync(CancellationToken cancellationToken = default)
+    {
+        var duration = TimeSpan.FromSeconds(_options.Value.SampleDJobDurationSeconds);
+
+        if (duration > TimeSpan.Zero)
+        {
+            _logger.LogInformation(
+                "Sample D - QueuedSlowUsersSnapshotJob: simulating work for {Duration}.",
+                duration);
+
+            await Task.Delay(duration, cancellationToken);
+        }
+
+        await RunUsersJobAsync("Sample D - QueuedSlowUsersSnapshotJob", status: null, cancellationToken);
+    }
 }
