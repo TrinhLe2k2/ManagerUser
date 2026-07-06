@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.11.35327.3
+# Visual Studio Version 18
+VisualStudioVersion = 18.7.11919.86 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3C4B13E8-E1E7-4A03-B8F0-96A0DFB6775E}"
 EndProject
@@ -30,6 +30,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{9889D65A-B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "procedures", "procedures", "{62708B5E-C04D-4F23-B7A9-C6AC8C8318C8}"
 	ProjectSection(SolutionItems) = preProject
+		OutboxMessage_ClaimPending.sql = OutboxMessage_ClaimPending.sql
+		OutboxMessage_MarkFailed.sql = OutboxMessage_MarkFailed.sql
+		OutboxMessage_MarkProcessed.sql = OutboxMessage_MarkProcessed.sql
+		OutboxMessage_SeedSamples.sql = OutboxMessage_SeedSamples.sql
 		database\procedures\User_ChangeStatus.sql = database\procedures\User_ChangeStatus.sql
 		database\procedures\User_Create.sql = database\procedures\User_Create.sql
 		database\procedures\User_Delete.sql = database\procedures\User_Delete.sql
@@ -43,6 +47,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "procedures", "procedures", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tables", "tables", "{D802C15B-ED4C-4761-BA7B-3027293FA38C}"
 	ProjectSection(SolutionItems) = preProject
+		OutboxMessages.sql = OutboxMessages.sql
 		database\tables\Users.sql = database\tables\Users.sql
 	EndProjectSection
 EndProject

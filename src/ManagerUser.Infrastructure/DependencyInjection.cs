@@ -20,6 +20,7 @@ public static class DependencyInjection
 
         services.AddScoped<IUserQueryRepository, UserQueryRepository>();
         services.AddScoped<IUserCommandRepository, UserCommandRepository>();
+        services.AddScoped<IOutboxMessageRepository, OutboxMessageRepository>();
 
         services.AddScoped<IPasswordHasher, PasswordHasher>();
 
